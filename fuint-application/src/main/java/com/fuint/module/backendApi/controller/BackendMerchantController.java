@@ -6,11 +6,11 @@ import com.fuint.common.dto.MerchantDto;
 import com.fuint.common.dto.ParamDto;
 import com.fuint.common.enums.MerchantTypeEnum;
 import com.fuint.common.enums.StatusEnum;
+import com.fuint.common.param.MerchantPage;
 import com.fuint.common.service.MerchantService;
 import com.fuint.common.service.SettingService;
 import com.fuint.common.util.TokenUtil;
 import com.fuint.framework.exception.BusinessCheckException;
-import com.fuint.framework.pagination.PaginationRequest;
 import com.fuint.framework.pagination.PaginationResponse;
 import com.fuint.framework.web.BaseController;
 import com.fuint.framework.web.ResponseObject;
@@ -58,30 +58,12 @@ public class BackendMerchantController extends BaseController {
     @RequestMapping(value = "/list")
     @CrossOrigin
     @PreAuthorize("@pms.hasPermission('merchant:index')")
-    public ResponseObject list(HttpServletRequest request) throws BusinessCheckException {
-        Integer page = request.getParameter("page") == null ? Constants.PAGE_NUMBER : Integer.parseInt(request.getParameter("page"));
-        Integer pageSize = request.getParameter("pageSize") == null ? Constants.PAGE_SIZE : Integer.parseInt(request.getParameter("pageSize"));
-
-        String merchantId = request.getParameter("id");
-        String merchantName = request.getParameter("name");
-        String status = request.getParameter("status");
-
+    public ResponseObject list(@ModelAttribute MerchantPage merchantPage) throws BusinessCheckException {
         AccountInfo accountInfo = TokenUtil.getAccountInfo();
         if (accountInfo.getMerchantId() != null && accountInfo.getMerchantId() > 0) {
-            merchantId = accountInfo.getMerchantId().toString();
+            merchantPage.setId(accountInfo.getMerchantId().toString());
         }
-
-        Map<String, Object> params = new HashMap<>();
-        if (StringUtil.isNotEmpty(merchantId)) {
-            params.put("id", merchantId);
-        }
-        if (StringUtil.isNotEmpty(merchantName)) {
-            params.put("name", merchantName);
-        }
-        if (StringUtil.isNotEmpty(status)) {
-            params.put("status", status);
-        }
-        PaginationResponse<MerchantDto> paginationResponse = merchantService.queryMerchantListByPagination(new PaginationRequest(page, pageSize, params));
+        PaginationResponse<MerchantDto> paginationResponse = merchantService.queryMerchantListByPagination(merchantPage);
 
         // 商户类型列表
         List<ParamDto> typeList = MerchantTypeEnum.getMerchantTypeList();

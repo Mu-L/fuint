@@ -10,6 +10,7 @@ import com.fuint.common.enums.OrderSettingEnum;
 import com.fuint.common.enums.SettingTypeEnum;
 import com.fuint.common.enums.StatusEnum;
 import com.fuint.common.enums.YesOrNoEnum;
+import com.fuint.common.param.MerchantPage;
 import com.fuint.common.service.MerchantService;
 import com.fuint.common.service.SettingService;
 import com.fuint.common.service.StoreService;
@@ -17,7 +18,6 @@ import com.fuint.common.util.CommonUtil;
 import com.fuint.common.util.RegexUtil;
 import com.fuint.framework.annoation.OperationServiceLog;
 import com.fuint.framework.exception.BusinessCheckException;
-import com.fuint.framework.pagination.PaginationRequest;
 import com.fuint.framework.pagination.PaginationResponse;
 import com.fuint.module.merchantApi.request.MerchantSettingParam;
 import com.fuint.repository.mapper.MtGoodsMapper;
@@ -73,24 +73,24 @@ public class MerchantServiceImpl extends ServiceImpl<MtMerchantMapper, MtMerchan
     /**
      * 分页查询商户列表
      *
-     * @param  paginationRequest
+     * @param  merchantPage
      * @return
      */
     @Override
-    public PaginationResponse<MerchantDto> queryMerchantListByPagination(PaginationRequest paginationRequest) {
-        Page<MtMerchant> pageHelper = PageHelper.startPage(paginationRequest.getCurrentPage(), paginationRequest.getPageSize());
+    public PaginationResponse<MerchantDto> queryMerchantListByPagination(MerchantPage merchantPage) {
+        Page<MtMerchant> pageHelper = PageHelper.startPage(merchantPage.getPage(), merchantPage.getPageSize());
         LambdaQueryWrapper<MtMerchant> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.ne(MtMerchant::getStatus, StatusEnum.DISABLE.getKey());
 
-        String name = paginationRequest.getSearchParams().get("name") == null ? "" : paginationRequest.getSearchParams().get("name").toString();
+        String name = merchantPage.getName();
         if (StringUtils.isNotBlank(name)) {
             lambdaQueryWrapper.like(MtMerchant::getName, name);
         }
-        String status = paginationRequest.getSearchParams().get("status") == null ? "" : paginationRequest.getSearchParams().get("status").toString();
+        String status = merchantPage.getStatus();
         if (StringUtils.isNotBlank(status)) {
             lambdaQueryWrapper.eq(MtMerchant::getStatus, status);
         }
-        String id = paginationRequest.getSearchParams().get("id") == null ? "" : paginationRequest.getSearchParams().get("id").toString();
+        String id = merchantPage.getId();
         if (StringUtils.isNotBlank(id)) {
             lambdaQueryWrapper.eq(MtMerchant::getId, id);
         }
@@ -107,7 +107,7 @@ public class MerchantServiceImpl extends ServiceImpl<MtMerchantMapper, MtMerchan
             }
         }
 
-        PageRequest pageRequest = PageRequest.of(paginationRequest.getCurrentPage(), paginationRequest.getPageSize());
+        PageRequest pageRequest = PageRequest.of(merchantPage.getPage(), merchantPage.getPageSize());
         PageImpl pageImpl = new PageImpl(dataList, pageRequest, pageHelper.getTotal());
         PaginationResponse<MerchantDto> paginationResponse = new PaginationResponse(pageImpl, MtMerchant.class);
         paginationResponse.setTotalPages(pageHelper.getPages());
