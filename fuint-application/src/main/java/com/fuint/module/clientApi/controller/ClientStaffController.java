@@ -79,12 +79,12 @@ public class ClientStaffController extends BaseController {
         newStaff.setMerchantId(userInfo.getMerchantId());
         newStaff.setAuditedStatus(StatusEnum.UnAudited.getKey());
         newStaff.setCreateTime(new Date());
-
+        newStaff.setCategory(1);
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setAccountName(userInfo.getName());
         accountInfo.setMerchantId(userInfo.getMerchantId());
         staffService.saveStaff(newStaff, accountInfo);
 
-        return getSuccessResult("申请提交成功，请等待审核");
+        return getSuccessResult("申请提交成功，请等待审核", null);
     }
 }
