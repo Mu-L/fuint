@@ -131,9 +131,7 @@ public class BackendBannerController extends BaseController {
     @PreAuthorize("@pms.hasPermission('content:banner:list')")
     public ResponseObject info(@PathVariable("id") Integer id) throws BusinessCheckException {
         AccountInfo accountInfo = TokenUtil.getAccountInfo();
-
         MtBanner bannerInfo = bannerService.queryBannerById(id);
-        String imagePath = settingService.getUploadBasePath();
 
         if (accountInfo.getMerchantId() != null && accountInfo.getMerchantId() > 0) {
             if (!bannerInfo.getMerchantId().equals(accountInfo.getMerchantId())) {
@@ -143,7 +141,7 @@ public class BackendBannerController extends BaseController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("bannerInfo", bannerInfo);
-        result.put("imagePath", imagePath);
+        result.put("imagePath", settingService.getUploadBasePath());
 
         return getSuccessResult(result);
     }
