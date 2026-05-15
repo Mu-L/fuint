@@ -1,10 +1,12 @@
 package com.fuint;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
 
@@ -16,7 +18,6 @@ import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
  */
 @EnableScheduling
 @SpringBootApplication
-@PropertySource("file:${env.properties.path}/${env.profile}/application.properties")
 public class fuintApplication {
 
     public static final String REWRITE_FILTER_NAME = "rewriteFilter";
@@ -42,5 +43,13 @@ public class fuintApplication {
         reg.addInitParameter("statusEnabledOnHosts", "*");
         reg.addInitParameter("logLevel", "WARN");
         return reg;
+    }
+
+    @Bean
+    @Primary
+    public ObjectMapper globalObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return mapper;
     }
 }

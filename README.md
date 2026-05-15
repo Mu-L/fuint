@@ -6,7 +6,7 @@ fuint会员营销系统是一套开源的实体店铺会员管理和营销系统
 <p><img src="https://fuint-cn.oss-cn-shenzhen.aliyuncs.com/screenshots/g1.png?v=1" alt="前台页面1"></p>
 <p><img src="https://fuint-cn.oss-cn-shenzhen.aliyuncs.com/screenshots/g2.png?v=2" alt="前台页面2"></p>
 <p><img src="https://fuint-cn.oss-cn-shenzhen.aliyuncs.com/screenshots/g3.png?v=2" alt="前台页面3"></p>
-<p><img src="https://fuint-cn.oss-cn-shenzhen.aliyuncs.com/screenshots/g4.png?v=1" alt="前台页面4"></p>
+<p><img src="https://fuint-cn.oss-cn-shenzhen.aliyuncs.com/screenshots/g6.png?v=1" alt="前台页面6"></p>
 <p><img src="https://fuint-cn.oss-cn-shenzhen.aliyuncs.com/screenshots/g5.png?v=1" alt="前台页面4"></p>
 
 fuint侧重于线下实体店的私域流量的运营，同时提供会员端小程序和收银系统的线上线下统一渠道，帮助商户降低获客成本。顾客通过扫码支付成为私域流量，支付即可成为会员。积分和卡券功能建立起会员等级体系，通过消息推送和短信营销方便触达用户。
@@ -99,7 +99,7 @@ fuint侧重于线下实体店的私域流量的运营，同时提供会员端小
 <p><img src="https://fuint-cn.oss-cn-shenzhen.aliyuncs.com/screenshots/cashier-1.png?v=fuint3.0.8" alt="收银结算"></p>
 
 #### 开发计划
-1. 完善的报表统计；
+1. 更完善的报表统计；
 2. 分享助力、分享领券、分享获得积分；
 3. 员工提成、分销功能；
 4. 更多营销工具，比如签到等。
